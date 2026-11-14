@@ -7,7 +7,7 @@ import { DEFAULT_WELCOME_FACE, type BmoFace } from "@/lib/assistant/bmoFaces";
 
 type BmoPortraitProps = {
   face?: BmoFace;
-  size?: "sm" | "md" | "lg" | "custom";
+  size?: "sm" | "md" | "lg" | "trigger" | "custom";
   interactive?: boolean;
   onCycleFace?: () => void;
   className?: string;
@@ -18,6 +18,7 @@ const SIZE_CLASSES = {
   sm: "w-[28px] h-[37px] sm:w-[31px] sm:h-[40.9px]",
   md: "w-[40px] h-[52.8px] sm:w-[44px] sm:h-[58px]",
   lg: "w-[72px] h-[95px] sm:w-[80px] sm:h-[105.6px]",
+  trigger: "h-[64px] w-[48.5px] sm:h-[76px] sm:w-[57.5px]",
   custom: "",
 } as const;
 

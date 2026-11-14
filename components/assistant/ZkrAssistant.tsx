@@ -235,13 +235,12 @@ export default function ZkrAssistant() {
         aria-haspopup="dialog"
         aria-controls="zkr-assistant-panel"
         onClick={() => (open ? closePanel() : setOpen(true))}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.96 }}
+        whileHover={{ scale: 1.03, y: -2 }}
+        whileTap={{ scale: 0.97 }}
         transition={{ duration: 0.3, ease: EASE }}
         className={cn(
-          "fixed z-[1300] flex items-center justify-center rounded-full border border-border-strong bg-surface text-text shadow-[0_10px_24px_-14px_rgb(var(--shadow)/0.45)] transition-[opacity,border-color,background-color] duration-300 hover:border-accent",
-          "bottom-24 right-4 h-[48px] w-[48px]",
-          "sm:bottom-[104px] sm:right-7 sm:h-[52px] sm:w-[52px]",
+          "fixed z-[1300] flex items-end justify-center text-text transition-[opacity,transform] duration-300",
+          "bottom-[88px] right-3 h-[84px] w-[64px] sm:bottom-[112px] sm:right-6 sm:h-[96px] sm:w-[72px]",
           // On phones the panel is a bottom sheet with its own close button, so the trigger is hidden while
           // it is open (`invisible` also removes it from the tab order); on desktop it doubles as the toggle.
           open && "invisible opacity-0 sm:visible sm:opacity-100 [@media(max-height:520px)]:!invisible [@media(max-height:520px)]:!opacity-0"
@@ -255,20 +254,20 @@ export default function ZkrAssistant() {
               animate={{ opacity: 1, rotate: 0 }}
               exit={{ opacity: 0, rotate: 45 }}
               transition={{ duration: 0.25, ease: EASE }}
-              className="flex items-center justify-center"
+              className="mb-3 flex h-11 w-11 items-center justify-center rounded-full border border-border-strong bg-surface text-text shadow-[0_10px_24px_-14px_rgb(var(--shadow)/0.45)] hover:border-accent sm:mb-4"
             >
               <X className="h-5 w-5" aria-hidden />
             </motion.span>
           ) : (
             <motion.span
               key="mark"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.25, ease: EASE }}
-              className="flex items-center justify-center"
+              initial={{ opacity: 0, y: 8, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 6, scale: 0.96 }}
+              transition={{ duration: 0.28, ease: EASE }}
+              className="relative flex items-end justify-center drop-shadow-[0_12px_18px_rgb(var(--shadow)/0.28)]"
             >
-              <BmoPortrait size="sm" face={activeFace} interactive={false} />
+              <BmoPortrait size="trigger" face={activeFace} interactive={false} />
             </motion.span>
           )}
         </AnimatePresence>
