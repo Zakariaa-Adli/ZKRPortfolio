@@ -7,7 +7,7 @@
  */
 const DEFAULTS = {
   email: "zr7791474@gmail.com",
-  githubUrl: "https://github.com/zr7791474-blip",
+  githubUrl: "https://github.com/Zakariaa-Adli",
   xUrl: "https://x.com/zkr_ad",
   instagramUrl: "https://instagram.com/zkr_ad",
   whatsappUrl: "https://wa.me/212657516301",
