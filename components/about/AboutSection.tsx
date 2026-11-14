@@ -23,26 +23,20 @@ export default function AboutSection() {
               className="max-w-[520px] font-serif text-[clamp(26px,2.8vw,34px)] leading-[1.3] tracking-[-0.01em] [&_em]:font-serif [&_em]:italic [&_em]:text-accent"
             />
 
-            <figure className="relative mt-10 w-full max-w-[420px]">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -left-4 -top-4 h-full w-full rounded-[28px] border border-accent/25 bg-accent/5"
-              />
-              <div className="relative overflow-hidden rounded-[28px] border border-border-strong bg-bg/70 p-2 shadow-[0_24px_48px_-28px_rgb(var(--shadow)/0.45)]">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] sm:aspect-square lg:aspect-[4/5]">
-                  <Image
-                    src="/profil/zkrlinkendin.jfif"
-                    alt="Portrait of Zakaria Adli (ZKR), full-stack developer based in Casablanca, Morocco."
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 420px, 34vw"
-                    className="object-cover object-center"
-                    priority={false}
-                  />
-                </div>
+            <figure className="mt-10 flex w-full max-w-[420px] flex-col items-center lg:items-start">
+              <div className="relative aspect-square w-[220px] overflow-hidden rounded-full border border-border-strong bg-bg/70 shadow-[0_18px_36px_-24px_rgb(var(--shadow)/0.4)] sm:w-[260px] lg:w-[280px]">
+                <Image
+                  src="/profil/zkrlinkendin.jfif"
+                  alt="Portrait of Zakaria Adli (ZKR), full-stack developer based in Casablanca, Morocco."
+                  fill
+                  sizes="(max-width: 640px) 220px, (max-width: 1024px) 260px, 280px"
+                  className="object-cover object-center"
+                  unoptimized
+                />
               </div>
-              <figcaption className="mt-3 flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[.08em] text-text-faint">
+              <figcaption className="mt-4 flex w-full max-w-[280px] items-center justify-between gap-4 text-center font-mono text-[10px] uppercase tracking-[.08em] text-text-faint lg:text-left">
                 <span>Zakaria Adli / ZKR</span>
-                <span>Casablanca, Morocco</span>
+                <span>Casablanca</span>
               </figcaption>
             </figure>
           </Reveal>
