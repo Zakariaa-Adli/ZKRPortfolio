@@ -3,7 +3,14 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Send, X } from "lucide-react";
-import Logo from "@/components/ui/Logo";
+import BmoPortrait from "@/components/assistant/BmoPortrait";
+import {
+  getFaceForTopic,
+  getNextFace,
+  LISTENING_FACE,
+  ERROR_FACE,
+  type BmoFace,
+} from "@/lib/assistant/bmoFaces";
 import { useTranslation } from "@/lib/i18n/LanguageContext";
 import {
   answerQuestion,
@@ -12,6 +19,7 @@ import {
   welcomeMessage,
   type AssistantLocale,
   type FollowUp,
+  type Topic,
 } from "@/lib/assistant/engine";
 import { cn } from "@/lib/utils";
 
@@ -89,10 +97,23 @@ export default function ZkrAssistant() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([{ id: "welcome", role: "assistant", kind: "welcome" }]);
   const [input, setInput] = useState("");
+  const [lastTopic, setLastTopic] = useState<Topic | "fallback">("greeting");
+  const [customFace, setCustomFace] = useState<BmoFace | null>(null);
+
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+
+  const activeFace = customFace ?? (
+    input.trim().length > 0
+      ? LISTENING_FACE
+      : getFaceForTopic(lastTopic)
+  );
+
+  const cycleFace = useCallback(() => {
+    setCustomFace((prev) => getNextFace((prev ?? activeFace).filename));
+  }, [activeFace]);
 
   const suggestions = tList("assistant.suggestions");
   const lastMessage = messages[messages.length - 1];
@@ -164,6 +185,13 @@ export default function ZkrAssistant() {
       answer = reply();
     } catch {
       /* falls through to the localized error message */
+    }
+    setCustomFace(null);
+    if (answer) {
+      setLastTopic(answer.topic);
+    } else {
+      setLastTopic("fallback");
+      setCustomFace(ERROR_FACE);
     }
     setMessages((prev) => [
       ...prev,
@@ -240,7 +268,7 @@ export default function ZkrAssistant() {
               transition={{ duration: 0.25, ease: EASE }}
               className="flex items-center justify-center"
             >
-              <Logo showWordmark={false} size={30} imageClassName="!border-0" wordmarkClassName="!gap-[3px] !text-[12px]" />
+              <BmoPortrait size="sm" face={activeFace} interactive={false} />
             </motion.span>
           )}
         </AnimatePresence>
@@ -284,11 +312,22 @@ export default function ZkrAssistant() {
               {/* Header */}
               <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-2 sm:px-5 sm:py-3">
                 <div className="flex min-w-0 items-center gap-3">
-                  <Logo showWordmark={false} size={30} wordmarkClassName="!text-[16px]" />
+                  <BmoPortrait
+                    size="md"
+                    face={activeFace}
+                    interactive
+                    onCycleFace={cycleFace}
+                    ariaLabel="BMO companion — click to change expression"
+                  />
                   <div className="flex min-w-0 flex-col leading-tight">
-                    <span className="font-serif text-[15px] font-medium">{t("assistant.title")}</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-serif text-[15px] font-medium">{t("assistant.title")}</span>
+                      <span className="inline-flex items-center rounded-full bg-accent/10 px-1.5 py-0.5 text-[9px] font-mono font-medium text-accent uppercase tracking-wider">
+                        BMO
+                      </span>
+                    </div>
                     <span className="truncate font-mono text-[10px] uppercase tracking-[.08em] text-text-faint">
-                      {t("assistant.subtitle")}
+                      {activeFace.label}
                     </span>
                   </div>
                 </div>
