@@ -124,7 +124,7 @@ export const projects: Project[] = [
           "Auth.js credentials login, protected routes via middleware, hashed passwords.",
       },
     ],
-    repositoryUrl: "https://github.com/zr7791474-blip/ZKR-Estate",
+    repositoryUrl: "https://github.com/Zakariaa-Adli/ZKR-Estate",
     liveUrl: "https://zkr-estate-ten.vercel.app",
     screenshots: [
       { src: "/projects/zkr-estate/screen1.JPG", alt: "ZKR Estate — Screen 1", label: "Screen 1", isPlaceholder: false },
@@ -275,7 +275,7 @@ export const projects: Project[] = [
           "Analytics computed from real Order/OrderItem data, month-over-month trends, product management with soft-delete.",
       },
     ],
-    repositoryUrl: "https://github.com/zr7791474-blip/ZKR-Ecommerce",
+    repositoryUrl: "https://github.com/Zakariaa-Adli/ZKR-Ecommerce",
     liveUrl: "https://zkr-ecommerce.vercel.app",
     screenshots: [
       { src: "/projects/zkr-ecommerce/Hero.JPG", alt: "ZKR Ecommerce — Hero section", label: "Hero", isPlaceholder: false },
@@ -528,7 +528,7 @@ export const projects: Project[] = [
         description: "Interface scaffolded for future automated workflows.",
       },
     ],
-    repositoryUrl: "https://github.com/zr7791474-blip/ZKR_Eclipse",
+    repositoryUrl: "https://github.com/Zakariaa-Adli/ZKR_Eclipse",
     liveUrl: "https://zkreclipse-seven.vercel.app/",
     screenshots: [
       { src: "/projects/zkr-eclipse/Home.JPG", alt: "ZKR Eclipse — Home", label: "Home", isPlaceholder: false },
@@ -682,7 +682,7 @@ export const projects: Project[] = [
           "Working contact API route, open roles, and privacy/terms pages.",
       },
     ],
-    repositoryUrl: "https://github.com/zr7791474-blip/ZKRcompany",
+    repositoryUrl: "https://github.com/Zakariaa-Adli/ZKRcompany",
     liveUrl: "https://zkrcompany.vercel.app",
     screenshots: [
       { src: "/projects/zkr-company/Hero.JPG", alt: "ZKR Company — Hero section", label: "Hero", isPlaceholder: false },

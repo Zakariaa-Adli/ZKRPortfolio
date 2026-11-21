@@ -16,8 +16,8 @@ export default function HomePage() {
       <Hero />
       <StatsBar />
       <Marquee items={marqueeTech} />
-      <ProjectsSection />
       <AboutSection />
+      <ProjectsSection />
       <ExperienceSection />
       <SkillsSection />
       <ServicesSection />

@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Send, X } from "lucide-react";
 import BmoPortrait from "@/components/assistant/BmoPortrait";
 import {
+  BMO_FACES,
   getFaceForTopic,
   getNextFace,
   LISTENING_FACE,
@@ -226,52 +227,52 @@ export default function ZkrAssistant() {
 
   return (
     <>
-      <motion.button
-        ref={buttonRef}
-        type="button"
-        data-cursor={open ? "CLOSE" : "CHAT"}
-        aria-label={open ? t("assistant.closeLabel") : t("assistant.openLabel")}
-        aria-expanded={open}
-        aria-haspopup="dialog"
-        aria-controls="zkr-assistant-panel"
-        onClick={() => (open ? closePanel() : setOpen(true))}
-        whileHover={{ scale: 1.03, y: -2 }}
-        whileTap={{ scale: 0.97 }}
-        transition={{ duration: 0.3, ease: EASE }}
+      {/* Floating BMO Character Launcher */}
+      <div
         className={cn(
-          "fixed z-[1300] flex items-end justify-center text-text transition-[opacity,transform] duration-300",
-          "bottom-[88px] right-3 h-[84px] w-[64px] sm:bottom-[112px] sm:right-6 sm:h-[96px] sm:w-[72px]",
-          // On phones the panel is a bottom sheet with its own close button, so the trigger is hidden while
-          // it is open (`invisible` also removes it from the tab order); on desktop it doubles as the toggle.
-          open && "invisible opacity-0 sm:visible sm:opacity-100 [@media(max-height:520px)]:!invisible [@media(max-height:520px)]:!opacity-0"
+          "fixed z-[1300] transition-[opacity,transform] duration-300",
+          "bottom-20 right-3 sm:bottom-[100px] sm:right-7",
+          open && "invisible opacity-0 pointer-events-none"
         )}
       >
-        <AnimatePresence mode="wait" initial={false}>
-          {open ? (
-            <motion.span
-              key="close"
-              initial={{ opacity: 0, rotate: -45 }}
-              animate={{ opacity: 1, rotate: 0 }}
-              exit={{ opacity: 0, rotate: 45 }}
-              transition={{ duration: 0.25, ease: EASE }}
-              className="mb-3 flex h-11 w-11 items-center justify-center rounded-full border border-border-strong bg-surface text-text shadow-[0_10px_24px_-14px_rgb(var(--shadow)/0.45)] hover:border-accent sm:mb-4"
-            >
-              <X className="h-5 w-5" aria-hidden />
-            </motion.span>
-          ) : (
-            <motion.span
-              key="mark"
-              initial={{ opacity: 0, y: 8, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 6, scale: 0.96 }}
-              transition={{ duration: 0.28, ease: EASE }}
-              className="relative flex items-end justify-center drop-shadow-[0_12px_18px_rgb(var(--shadow)/0.28)]"
-            >
-              <BmoPortrait size="trigger" face={activeFace} interactive={false} />
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </motion.button>
+        <motion.button
+          ref={buttonRef}
+          type="button"
+          data-cursor="CHAT"
+          aria-label={t("assistant.openLabel")}
+          aria-expanded={open}
+          aria-haspopup="dialog"
+          aria-controls="zkr-assistant-panel"
+          onClick={() => setOpen(true)}
+          animate={reduceMotion ? undefined : { y: [0, -6, 0] }}
+          transition={{ repeat: Infinity, duration: 3.4, ease: "easeInOut" }}
+          whileHover={reduceMotion ? undefined : { scale: 1.06, y: -9 }}
+          whileTap={reduceMotion ? undefined : { scale: 0.95 }}
+          className="group relative flex flex-col items-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 rounded-xl"
+        >
+          {/* Speech bubble indicator */}
+          <div className="absolute -top-7 right-1/2 translate-x-1/2 whitespace-nowrap rounded-full border border-border-strong bg-surface/95 px-2.5 py-0.5 text-[10.5px] font-mono font-medium text-text shadow-sm backdrop-blur-sm pointer-events-none flex items-center gap-1.5 transition-transform duration-200 group-hover:scale-105">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75 motion-reduce:hidden" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            </span>
+            <span>Ask BMO</span>
+          </div>
+
+          {/* Full BMO Character */}
+          <div className="relative drop-shadow-[0_14px_22px_rgb(var(--shadow)/0.35)]">
+            <BmoPortrait size="character" face={activeFace} interactive={false} />
+          </div>
+
+          {/* Grounding Shadow */}
+          <motion.div
+            aria-hidden
+            animate={reduceMotion ? undefined : { scaleX: [1, 0.85, 1], opacity: [0.35, 0.22, 0.35] }}
+            transition={{ repeat: Infinity, duration: 3.4, ease: "easeInOut" }}
+            className="mt-1 h-2 w-3/4 rounded-full bg-black/30 dark:bg-black/60 blur-[3px]"
+          />
+        </motion.button>
+      </div>
 
       <AnimatePresence>
         {open && (
@@ -302,41 +303,55 @@ export default function ZkrAssistant() {
                 "fixed z-[1295] flex flex-col overflow-hidden border border-border bg-surface shadow-[0_24px_48px_-24px_rgb(var(--shadow)/0.4)]",
                 // Phones: full-width bottom sheet with 12px side margins; dvh tracks the collapsing URL bar.
                 "inset-x-3 bottom-3 h-[min(76dvh,580px)] w-auto rounded-lg",
-                // sm and up: compact card anchored above the trigger.
-                "sm:inset-x-auto sm:bottom-[168px] sm:left-auto sm:right-7 sm:h-[min(560px,calc(100dvh-200px))] sm:w-[380px] sm:rounded-md",
-                // Short viewports (landscape phones): the anchored card would run off the top → full-height side sheet.
+                // sm and up: compact card anchored in the bottom right corner.
+                "sm:inset-x-auto sm:bottom-6 sm:left-auto sm:right-7 sm:h-[min(580px,calc(100dvh-120px))] sm:w-[390px] sm:rounded-xl",
+                // Short viewports (landscape phones): full-height side sheet.
                 "[@media(max-height:520px)]:!bottom-3 [@media(max-height:520px)]:!h-[calc(100dvh-1.5rem)]"
               )}
             >
-              {/* Header */}
-              <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-2 sm:px-5 sm:py-3">
-                <div className="flex min-w-0 items-center gap-3">
-                  <BmoPortrait
-                    size="md"
-                    face={activeFace}
-                    interactive
-                    onCycleFace={cycleFace}
-                    ariaLabel="BMO companion — click to change expression"
-                  />
+              {/* Header with Prominent BMO Companion Stage */}
+              <div className="flex items-center justify-between gap-3 border-b border-border bg-bg/50 px-4 py-3 sm:px-5 sm:py-3.5 backdrop-blur-xs">
+                <div className="flex min-w-0 items-center gap-3.5">
+                  <div className="relative rounded-lg bg-accent/8 p-1 border border-accent/20 shadow-inner shrink-0">
+                    <BmoPortrait
+                      size="header"
+                      face={activeFace}
+                      interactive
+                      onCycleFace={cycleFace}
+                      ariaLabel="BMO companion — click to change expression"
+                    />
+                  </div>
                   <div className="flex min-w-0 flex-col leading-tight">
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-serif text-[15px] font-medium">{t("assistant.title")}</span>
-                      <span className="inline-flex items-center rounded-full bg-accent/10 px-1.5 py-0.5 text-[9px] font-mono font-medium text-accent uppercase tracking-wider">
+                    <div className="flex items-center gap-2">
+                      <span className="font-serif text-[15px] sm:text-[16px] font-semibold text-text">
+                        {t("assistant.title")}
+                      </span>
+                      <span className="inline-flex items-center rounded-full bg-accent/15 px-2 py-0.5 text-[9.5px] font-mono font-bold text-accent uppercase tracking-wider">
                         BMO
                       </span>
                     </div>
-                    <span className="truncate font-mono text-[10px] uppercase tracking-[.08em] text-text-faint">
-                      {activeFace.label}
-                    </span>
+                    <div className="mt-1 flex items-center gap-1.5">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" />
+                      <span className="truncate font-mono text-[11px] font-medium text-text-dim">
+                        {activeFace.label}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={cycleFace}
+                      className="mt-0.5 text-left font-mono text-[9.5px] text-accent hover:underline cursor-pointer"
+                    >
+                      Click BMO to change mood ({BMO_FACES.findIndex((f) => f.id === activeFace.id) + 1}/30)
+                    </button>
                   </div>
                 </div>
                 <button
                   type="button"
                   aria-label={t("assistant.closeLabel")}
                   onClick={() => closePanel()}
-                  className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full text-text-dim transition-colors hover:text-text sm:h-9 sm:w-9 [@media(pointer:coarse)]:!h-11 [@media(pointer:coarse)]:!w-11"
+                  className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-border bg-surface text-text-dim transition-colors hover:border-accent hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
                 >
-                  <X className="h-[18px] w-[18px]" aria-hidden />
+                  <X className="h-4 w-4" aria-hidden />
                 </button>
               </div>
 

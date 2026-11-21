@@ -7,7 +7,7 @@ import { DEFAULT_WELCOME_FACE, type BmoFace } from "@/lib/assistant/bmoFaces";
 
 type BmoPortraitProps = {
   face?: BmoFace;
-  size?: "sm" | "md" | "lg" | "trigger" | "custom";
+  size?: "sm" | "md" | "lg" | "trigger" | "character" | "header" | "custom";
   interactive?: boolean;
   onCycleFace?: () => void;
   className?: string;
@@ -15,10 +15,12 @@ type BmoPortraitProps = {
 };
 
 const SIZE_CLASSES = {
-  sm: "w-[28px] h-[37px] sm:w-[31px] sm:h-[40.9px]",
-  md: "w-[40px] h-[52.8px] sm:w-[44px] sm:h-[58px]",
-  lg: "w-[72px] h-[95px] sm:w-[80px] sm:h-[105.6px]",
-  trigger: "h-[64px] w-[48.5px] sm:h-[76px] sm:w-[57.5px]",
+  sm: "w-[28px] h-[37px] sm:w-[32px] sm:h-[42.2px]",
+  md: "w-[40px] h-[52.8px] sm:w-[46px] sm:h-[60.7px]",
+  header: "w-[48px] h-[63.3px] sm:w-[58px] sm:h-[76.5px]",
+  trigger: "w-[54px] h-[71.2px] sm:w-[68px] sm:h-[89.7px] lg:w-[82px] lg:h-[108.2px]",
+  character: "w-[54px] h-[71.2px] sm:w-[68px] sm:h-[89.7px] lg:w-[82px] lg:h-[108.2px]",
+  lg: "w-[72px] h-[95px] sm:w-[84px] sm:h-[110.8px]",
   custom: "",
 } as const;
 
@@ -62,7 +64,7 @@ export default function BmoPortrait({
               src={currentFace.src}
               alt={currentFace.label}
               fill
-              sizes="(max-width: 640px) 100px, 160px"
+              sizes="(max-width: 640px) 140px, 220px"
               priority
               className="object-cover select-none pointer-events-none"
             />
@@ -76,7 +78,7 @@ export default function BmoPortrait({
         alt="BMO"
         fill
         priority
-        sizes="(max-width: 640px) 100px, 160px"
+        sizes="(max-width: 640px) 140px, 220px"
         className="pointer-events-none select-none z-10"
       />
     </div>

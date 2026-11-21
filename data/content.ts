@@ -1,8 +1,8 @@
 import { projects } from "./projects";
 
 export const nav = [
-  { label: "Work", href: "#work" },
   { label: "About", href: "#about" },
+  { label: "Work", href: "#work" },
   { label: "Experience", href: "#experience" },
   { label: "Skills", href: "#skills" },
   { label: "Services", href: "#services" },
